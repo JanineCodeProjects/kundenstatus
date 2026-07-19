@@ -3,34 +3,283 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Kundenstatus</title>
+  <title>Kundenstatus – Anmeldeformular</title>
   <style>
+    * { box-sizing: border-box; }
     body {
       font-family: system-ui, -apple-system, Arial, sans-serif;
       background: #0f172a;
       color: #f1f5f9;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
       margin: 0;
+      padding: 2rem 1rem;
+      display: flex;
+      justify-content: center;
+    }
+    .wrap {
+      width: 100%;
+      max-width: 720px;
+    }
+    h1 {
+      margin: 0 0 0.25rem;
+      font-size: 1.6rem;
+    }
+    .sub {
+      color: #94a3b8;
+      margin: 0 0 2rem;
     }
     .card {
       background: #1e293b;
-      padding: 3rem 4rem;
       border-radius: 16px;
-      text-align: center;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+      padding: 1.75rem 2rem;
+      margin-bottom: 1.25rem;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.3);
     }
-    h1 { margin: 0 0 0.5rem; }
-    p { color: #94a3b8; margin: 0; }
-    .status { color: #4ade80; font-weight: 600; }
+    .card h2 {
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #93c5fd;
+      margin: 0 0 1rem;
+    }
+    label {
+      display: block;
+      font-size: 0.9rem;
+      color: #cbd5e1;
+      margin: 0 0 0.4rem;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="number"] {
+      width: 100%;
+      padding: 0.65rem 0.8rem;
+      border-radius: 8px;
+      border: 1px solid #334155;
+      background: #0f172a;
+      color: #f1f5f9;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+    input:focus {
+      outline: none;
+      border-color: #4ade80;
+    }
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-bottom: 1rem;
+    }
+    .opt {
+      flex: 1 1 auto;
+      padding: 0.65rem 1rem;
+      border-radius: 8px;
+      border: 1px solid #334155;
+      background: #0f172a;
+      color: #e2e8f0;
+      cursor: pointer;
+      font-size: 0.95rem;
+      text-align: center;
+      transition: all 0.15s ease;
+      user-select: none;
+    }
+    .opt:hover {
+      border-color: #4ade80;
+    }
+    .opt.selected {
+      background: #4ade80;
+      border-color: #4ade80;
+      color: #0f172a;
+      font-weight: 600;
+    }
+    .price-row {
+      display: flex;
+      gap: 0.8rem;
+      align-items: flex-start;
+    }
+    .price-row input {
+      flex: 1;
+    }
+    .price-row .btn-group {
+      flex: 2;
+    }
+    .hidden { display: none; }
+    .summary {
+      background: #0f172a;
+      border: 1px dashed #334155;
+      border-radius: 10px;
+      padding: 1.25rem 1.5rem;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      white-space: pre-wrap;
+      color: #e2e8f0;
+    }
+    .send-btn {
+      display: block;
+      width: 100%;
+      padding: 0.9rem;
+      margin-top: 1.25rem;
+      border: none;
+      border-radius: 10px;
+      background: #4ade80;
+      color: #0f172a;
+      font-size: 1.05rem;
+      font-weight: 700;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+    }
+    .send-btn:hover {
+      background: #86efac;
+    }
+    .hint {
+      color: #64748b;
+      font-size: 0.8rem;
+      margin-top: 0.5rem;
+    }
   </style>
 </head>
 <body>
-  <div class="card">
+  <div class="wrap">
     <h1>Kundenstatus</h1>
-    <p>Deine App läuft <span class="status">online</span> auf Railway ✅</p>
+    <p class="sub">Anmeldeformular – live mit dem Kunden ausfüllen</p>
+
+    <div class="card">
+      <h2>Kunde</h2>
+      <label for="kundenname">Name / Firma</label>
+      <input type="text" id="kundenname" placeholder="z. B. Mustermann GmbH" />
+
+      <label for="empfaenger">Zusammenfassung senden an</label>
+      <input type="email" id="empfaenger" value="janine.axelsson@pplwise.com" />
+    </div>
+
+    <div class="card">
+      <h2>Kündigungsfrist</h2>
+      <div class="btn-group" data-group="kuendigungsfrist">
+        <div class="opt" data-value="1 Monat">1 Monat</div>
+        <div class="opt" data-value="3 Monate">3 Monate</div>
+        <div class="opt" data-value="6 Monate">6 Monate</div>
+        <div class="opt" data-value="12 Monate">12 Monate</div>
+        <div class="opt" data-value="individuell">individuell</div>
+      </div>
+      <input type="text" id="kuendigungsfrist-individuell" class="hidden" placeholder="individuelle Kündigungsfrist eingeben" />
+    </div>
+
+    <div class="card">
+      <h2>Preis</h2>
+      <div class="price-row">
+        <input type="number" id="preis" placeholder="z. B. 199" min="0" step="0.01" />
+        <div class="btn-group" data-group="intervall">
+          <div class="opt" data-value="monatlich">monatlich</div>
+          <div class="opt" data-value="jährlich">jährlich</div>
+          <div class="opt" data-value="einmalig">einmalig</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Entity</h2>
+      <div class="btn-group" data-group="entity">
+        <div class="opt" data-value="Ja">Ja</div>
+        <div class="opt" data-value="Nein">Nein</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Vertragssprache</h2>
+      <div class="btn-group" data-group="sprache">
+        <div class="opt" data-value="Deutsch">Deutsch</div>
+        <div class="opt" data-value="Englisch">Englisch</div>
+        <div class="opt" data-value="Beides">Beides</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Zusammenfassung</h2>
+      <div class="summary" id="summary">Bitte Felder oben ausfüllen …</div>
+      <a href="#" id="send-btn" class="send-btn">Zusammenfassung per E-Mail senden</a>
+      <p class="hint">Öffnet dein Mailprogramm mit vorausgefüllter Zusammenfassung.</p>
+    </div>
   </div>
+
+  <script>
+    const state = {
+      kuendigungsfrist: null,
+      intervall: null,
+      entity: null,
+      sprache: null,
+    };
+
+    document.querySelectorAll(".btn-group").forEach((group) => {
+      const key = group.dataset.group;
+      group.querySelectorAll(".opt").forEach((opt) => {
+        opt.addEventListener("click", () => {
+          group.querySelectorAll(".opt").forEach((o) => o.classList.remove("selected"));
+          opt.classList.add("selected");
+          state[key] = opt.dataset.value;
+
+          if (key === "kuendigungsfrist") {
+            const custom = document.getElementById("kuendigungsfrist-individuell");
+            if (opt.dataset.value === "individuell") {
+              custom.classList.remove("hidden");
+              custom.focus();
+            } else {
+              custom.classList.add("hidden");
+              custom.value = "";
+            }
+          }
+
+          updateSummary();
+        });
+      });
+    });
+
+    [
+      "kundenname",
+      "empfaenger",
+      "preis",
+      "kuendigungsfrist-individuell",
+    ].forEach((id) => {
+      document.getElementById(id).addEventListener("input", updateSummary);
+    });
+
+    function getKuendigungsfrist() {
+      if (state.kuendigungsfrist === "individuell") {
+        const custom = document.getElementById("kuendigungsfrist-individuell").value.trim();
+        return custom || "individuell (noch offen)";
+      }
+      return state.kuendigungsfrist;
+    }
+
+    function buildSummary() {
+      const name = document.getElementById("kundenname").value.trim() || "–";
+      const preis = document.getElementById("preis").value.trim();
+      const preisText = preis ? `${preis} €${state.intervall ? " " + state.intervall : ""}` : "–";
+      const heute = new Date().toLocaleDateString("de-DE");
+
+      return [
+        `Kunde: ${name}`,
+        `Datum: ${heute}`,
+        `Kündigungsfrist: ${getKuendigungsfrist() || "–"}`,
+        `Preis: ${preisText}`,
+        `Entity: ${state.entity || "–"}`,
+        `Vertragssprache: ${state.sprache || "–"}`,
+      ].join("\n");
+    }
+
+    function updateSummary() {
+      const text = buildSummary();
+      document.getElementById("summary").textContent = text;
+
+      const name = document.getElementById("kundenname").value.trim();
+      const empfaenger = document.getElementById("empfaenger").value.trim();
+      const subject = encodeURIComponent(`Zusammenfassung Vertrag${name ? " – " + name : ""}`);
+      const body = encodeURIComponent(text);
+
+      document.getElementById("send-btn").href =
+        `mailto:${encodeURIComponent(empfaenger)}?subject=${subject}&body=${body}`;
+    }
+
+    updateSummary();
+  </script>
 </body>
 </html>
