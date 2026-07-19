@@ -7,8 +7,8 @@ const app = express();
 // Lokal (auf deinem Rechner) wird 3000 verwendet.
 const PORT = process.env.PORT || 3000;
 
-// Liefert die Dateien aus dem Ordner "public" aus (z. B. index.html).
-app.use(express.static(path.join(__dirname, "public")));
+// Liefert die Dateien aus dem Hauptverzeichnis aus (z. B. index.html).
+app.use(express.static(__dirname));
 
 app.listen(PORT, () => {
   console.log(`Kundenstatus läuft auf Port ${PORT}`);
